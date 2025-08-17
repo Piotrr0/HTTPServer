@@ -7,8 +7,12 @@ configure_file(${CMAKE_SOURCE_DIR}/src/messages.txt ${CMAKE_BINARY_DIR}/src/mess
 
 add_executable(HTTPServer src/main.cpp
         src/HTTPRequest.cpp
-        src/HTTPRequest.h)
+        src/HTTPRequest.h
+        src/HTTPResponse.cpp
+        src/HTTPResponse.h)
 
 add_executable(Client src/client.cpp
         src/HTTPRequest.cpp
-        src/HTTPRequest.h)
+        src/HTTPRequest.h
+        src/HTTPResponse.cpp
+        src/HTTPResponse.h)

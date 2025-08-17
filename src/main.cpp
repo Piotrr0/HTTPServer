@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "HTTPRequest.h"
+
 void getLinesFromBytes(const char* data, const size_t size, std::vector<std::string>& outLines) {
     std::string lineBuffer;
     for (size_t i = 0; i < size; i++) {
@@ -19,6 +21,17 @@ void getLinesFromBytes(const char* data, const size_t size, std::vector<std::str
 
     if (!lineBuffer.empty())
         outLines.emplace_back(lineBuffer);
+}
+
+std::string readMessageFromFile(const std::string& path) {
+    std::string message;
+    std::ifstream file(path);
+
+    std::string line;
+    while (getline(file, line)) {
+        message += line;
+    }
+    return message;
 }
 
 int main() {
@@ -38,6 +51,10 @@ int main() {
 
     if (listen(serverSocket, 5) < 0)
         return 1;
+
+    std::string message = readMessageFromFile("src/messages.txt");
+    std::cout << message << std::endl;
+    Request rq = HTTPRequest::parse(message);
 
     while (true) {
         const int clientSocket = accept(serverSocket, nullptr, nullptr);
